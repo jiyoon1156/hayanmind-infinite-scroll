@@ -25,6 +25,5 @@ export default createGlobalStyle`
     font-size: inherit;
     vertical-align: baseline;
     word-break: keep-all;
-    -webkit-font-smoothing: antialiased;
   }
 `;
