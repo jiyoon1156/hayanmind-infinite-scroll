@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 import CommentCardSkeleton from './CommentCardSkeleton';
+import Loader from './Loader';
 
 const InfiniteScrollList = () => {
   const [comments, setComments] = useState();
@@ -69,10 +70,10 @@ const InfiniteScrollList = () => {
     fetchMorePages();
   }, [isFetching]);
 
-  if (!comments) return <div>setting data!!!!</div>;
+  if (!comments) return <Loader />;
 
   return (
-    <>
+    <Wrapper>
       {comments.map((comment) => (
         <StyledCard key={comment.id}>
           <div>
@@ -93,9 +94,16 @@ const InfiniteScrollList = () => {
         Array(5)
           .fill(0)
           .map((_, i) => <CommentCardSkeleton />)}
-    </>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 33px 0;
+`;
 
 const StyledCard = styled.div`
   width: 500px;
