@@ -3,79 +3,85 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 const InfiniteScrollList = () => {
+  const [comments, setComments] = useState();
   const [page, setPage] = useState(2);
-  const [info, setInfo] = useState();
 
   useEffect(() => {
     const apiCall = async () => {
       const { data } = await axios.get('https://jsonplaceholder.typicode.com/comments?_page=1&_limit=10');
-      setInfo(Array.from(data));
+      setComments(Array.from(data));
     };
     apiCall();
   }, []);
 
   const [isFetching, setIsFetching] = useState(false);
 
-  function handleScroll() {
-    // const scrollHeight = document.documentElement.offsetHeight;
+  // const handleScrollThrottle = (callback, wait) => {
+  //   // callback: 실행 대상인 함수
+  //   let waiting = true; // true로 주어서 콜백함수가
+  //   // 처음 한번은 바로 실행되도록 함
+  //   return () => {
+  //     if (waiting) {
+  //       callback();
+  //       waiting = false; // false로 바꿔 실행되지 않도록 한다.
+  //       setTimeout(() => {
+  //         // wait만큼 시간이 지난 후,
+  //         waiting = true; // true로 바뀌면서 다시 실행됨.
+  //       }, wait);
+  //     }
+  //   };
+  // };
+
+  const handleScroll = () => {
     const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     const { clientHeight } = document.documentElement;
-    console.log('clientHeight: ', clientHeight);
-    console.log('offsetHeight: ', document.documentElement.offsetHeight);
+    // console.log('clientHeight: ', clientHeight);
+    // console.log('offsetHeight: ', document.documentElement.offsetHeight);
     // console.log('scrollTop: ', scrollTop);
-    console.log('scrollHeight: ', scrollHeight);
+    // console.log('scrollHeight: ', scrollHeight);
 
-    if (clientHeight + scrollTop !== scrollHeight || isFetching) return;
-    setIsFetching(true);
-  }
+    if (clientHeight + scrollTop >= scrollHeight / 2) {
+      console.log('scroll handling');
+      setIsFetching(true);
+    }
+  };
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  function fetchMoreListItems() {
+  const fetchMorePages = () => {
     setTimeout(async () => {
-      setPage(page + 1);
       const { data } = await axios.get(`https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`);
-      setInfo(info.concat(data));
+      setComments(comments.concat(data));
       setIsFetching(false);
-    }, 1000);
-  }
+    }, 500);
+  };
 
   useEffect(() => {
-    if (!isFetching) return;
-    fetchMoreListItems();
+    if (!isFetching || page >= 51) return;
+    setPage(page + 1);
+    fetchMorePages();
   }, [isFetching]);
 
-  if (!info) return <div>setting data!!!!</div>;
-  // if (info) {
-  //   console.log(info);
-  // }
+  if (!comments) return <div>setting data!!!!</div>;
 
   return (
     <>
-      {/* <ul className="list-group mb-2">
-        {info.map((i) => (
-          <li className="list-group-item">
-            <div>Comment ID {i.id}</div>
-            <div>Email {i.email}</div>
-          </li>
-        ))}
-      </ul> */}
-      {info.map((i) => (
-        <StyledCard>
+      {comments.map((comment) => (
+        <StyledCard key={comment.id}>
           <div>
-            <b>Comment Id</b> {i.id}
+            <b>Comment Id</b> {comment.id}
           </div>
           <StyledEmail>
-            <b>Email</b> {i.email}
+            <b>Email</b> {comment.email}
           </StyledEmail>
           <div>
             <b>Comment</b>
             <br />
-            <p>{i.body}</p>
+            <p>{comment.body}</p>
           </div>
         </StyledCard>
       ))}
