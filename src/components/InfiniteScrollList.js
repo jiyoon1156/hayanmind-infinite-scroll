@@ -68,10 +68,10 @@ const InfiniteScrollList = () => {
       {comments.map((comment) => (
         <StyledCard key={comment.id}>
           <div>
-            <b>Comment Id</b> {comment.id}
+            <b>Comment Id</b>&nbsp;&nbsp;{comment.id}
           </div>
           <StyledEmail>
-            <b>Email</b> {comment.email}
+            <b>Email</b>&nbsp;&nbsp;{comment.email}
           </StyledEmail>
           <div>
             <b>Comment</b>
