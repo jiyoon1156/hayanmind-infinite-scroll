@@ -30,6 +30,7 @@ const StyledCard = styled.div`
   border-radius: 20px;
   padding: 20px;
   font-size: 18px;
+  margin-bottom: 14px;
 `;
 
 const StyledEmail = styled.div`
