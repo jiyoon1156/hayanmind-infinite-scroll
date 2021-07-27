@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
-const CommentCardSkeleton = () => {
+const CardSkeleton = () => {
   return (
-    <SkeletonTheme color="#bfbfbf" highlightColor="#919191">
+    <SkeletonTheme color="#bfbfbf" highlightColor="#A8A8A8">
       <StyledCardSkeleton>
         <div>
           {/* <b>Comment Id</b>1 */}
@@ -45,4 +45,4 @@ const StyledCardSkeleton = styled.div`
   }
 `;
 
-export default CommentCardSkeleton;
+export default CardSkeleton;

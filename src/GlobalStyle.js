@@ -26,10 +26,4 @@ export default createGlobalStyle`
     vertical-align: baseline;
     word-break: keep-all;
   }
-	body {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 33px 0;
-	}
 `;

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import CommentCardSkeleton from './CommentCardSkeleton';
+import CardSkeleton from './CardSkeleton';
+import Loader from './Loader';
 
 const InfiniteScrollList = () => {
   const [comments, setComments] = useState();
@@ -17,6 +18,7 @@ const InfiniteScrollList = () => {
   }, []);
 
   const [isFetching, setIsFetching] = useState(false);
+  const [isReachingEnd, setIsReachingEnd] = useState(false);
 
   const handleScroll = () => {
     const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
@@ -50,21 +52,24 @@ const InfiniteScrollList = () => {
   const fetchMorePages = () => {
     setTimeout(async () => {
       const { data } = await axios.get(`https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`);
-      setComments(comments.concat(data));
-      setIsFetching(false);
+
+      if (data.length > 0) {
+        setComments(comments.concat(data));
+        setIsFetching(false);
+      } else setIsReachingEnd(true);
     }, 500);
   };
 
   useEffect(() => {
-    if (!isFetching || page >= 51) return;
+    if (!isFetching || isReachingEnd) return;
     setPage(page + 1);
     fetchMorePages();
   }, [isFetching]);
 
-  if (!comments) return <div>setting data!!!!</div>;
+  if (!comments) return <Loader />;
 
   return (
-    <>
+    <Wrapper>
       {comments.map((comment) => (
         <StyledCard key={comment.id}>
           <div>
@@ -82,12 +87,20 @@ const InfiniteScrollList = () => {
       ))}
 
       {isFetching &&
+        !isReachingEnd &&
         Array(5)
           .fill(0)
-          .map((_, i) => <CommentCardSkeleton />)}
-    </>
+          .map((_, i) => <CardSkeleton />)}
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 33px 0;
+`;
 
 const StyledCard = styled.div`
   width: 500px;
