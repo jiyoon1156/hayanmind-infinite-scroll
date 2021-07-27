@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import CommentCardSkeleton from './CommentCardSkeleton';
+
 const InfiniteScrollList = () => {
   const [comments, setComments] = useState();
   const [page, setPage] = useState(2);
@@ -36,6 +38,7 @@ const InfiniteScrollList = () => {
     const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     const { clientHeight } = document.documentElement;
+
     // console.log('clientHeight: ', clientHeight);
     // console.log('offsetHeight: ', document.documentElement.offsetHeight);
     // console.log('scrollTop: ', scrollTop);
@@ -85,7 +88,11 @@ const InfiniteScrollList = () => {
           </div>
         </StyledCard>
       ))}
-      {isFetching && 'Fetching more list items...'}
+
+      {isFetching &&
+        Array(5)
+          .fill(0)
+          .map((_, i) => <CommentCardSkeleton />)}
     </>
   );
 };
