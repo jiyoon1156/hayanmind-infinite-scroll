@@ -24,26 +24,23 @@ const InfiniteScrollList = () => {
     const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     const { clientHeight } = document.documentElement;
-
     if (clientHeight + scrollTop >= scrollHeight / 2) {
       setIsFetching(true);
     }
   };
 
   const [waiting, setWaiting] = useState(true);
-
+  const handleScrollThrottle = () => {
+    if (waiting) {
+      handleScroll(); // 처음엔 무조건 실행
+      setWaiting(false); // false로 바꿔 실행되지 않도록 한다.
+      setTimeout(() => {
+        // 2000ms 만큼 시간이 지난 후,
+        setWaiting(true); // true로 바뀌면서 다시 실행됨.
+      }, 2000);
+    }
+  };
   useEffect(() => {
-    const handleScrollThrottle = () => {
-      if (waiting) {
-        handleScroll(); // 처음엔 무조건 실행
-        setWaiting(false); // false로 바꿔 실행되지 않도록 한다.
-        setTimeout(() => {
-          // 1000ms 만큼 시간이 지난 후,
-          setWaiting(true); // true로 바뀌면서 다시 실행됨.
-        }, 1000);
-      }
-    };
-
     window.addEventListener('scroll', handleScrollThrottle);
 
     return () => window.removeEventListener('scroll', handleScrollThrottle);
