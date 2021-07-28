@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/hayanmind-infinite-scroll/static/js/main.f8839606.chunk.js",
-    "main.js.map": "/hayanmind-infinite-scroll/static/js/main.f8839606.chunk.js.map",
+    "main.js": "/hayanmind-infinite-scroll/static/js/main.d29bbbc7.chunk.js",
+    "main.js.map": "/hayanmind-infinite-scroll/static/js/main.d29bbbc7.chunk.js.map",
     "runtime-main.js": "/hayanmind-infinite-scroll/static/js/runtime-main.9c0778b8.js",
     "runtime-main.js.map": "/hayanmind-infinite-scroll/static/js/runtime-main.9c0778b8.js.map",
     "static/js/2.2a6c581c.chunk.js": "/hayanmind-infinite-scroll/static/js/2.2a6c581c.chunk.js",
@@ -12,6 +12,6 @@
   "entrypoints": [
     "static/js/runtime-main.9c0778b8.js",
     "static/js/2.2a6c581c.chunk.js",
-    "static/js/main.f8839606.chunk.js"
+    "static/js/main.d29bbbc7.chunk.js"
   ]
 }
