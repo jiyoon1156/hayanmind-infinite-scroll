@@ -90,7 +90,7 @@ const InfiniteScrollList = () => {
         !isReachingEnd &&
         Array(5)
           .fill(0)
-          .map((_, i) => <CardSkeleton />)}
+          .map((_, i) => <CardSkeleton key={`skeleton-item${i + 1}`} />)}
     </Wrapper>
   );
 };
